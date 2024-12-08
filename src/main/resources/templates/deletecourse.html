@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Courses</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .header {
+            background-color: #333;
+            padding: 15px 20px;
+            color: white;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .container {
+            padding: 20px;
+        }
+        .course-list {
+            margin: 20px auto;
+            max-width: 600px;
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .course-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        .course-item:last-child {
+            border-bottom: none;
+        }
+        .btn-delete {
+            padding: 5px 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-delete:hover {
+            background-color: #a71d2a;
+        }
+        .message {
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+            border-radius: 4px;
+            display: none;
+        }
+    </style>
+    <script>
+        function deleteCourse(courseId) {
+            const courseElement = document.getElementById(`course-${courseId}`);
+            if (courseElement) {
+                courseElement.remove();
+            }
+            const message = document.getElementById('message');
+            message.textContent = `Course with ID ${courseId} has been successfully deleted.`;
+            message.style.display = 'block';
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <h1>Delete Courses</h1>
+    </div>
+    <div class="container">
+        <div class="course-list">
+            <div id="course-1" class="course-item">
+                <span>Python Full Stack Development</span>
+                <button class="btn-delete" onclick="deleteCourse(1)">Delete</button>
+            </div>
+            <div id="course-2" class="course-item">
+                <span>Operating Systems</span>
+                <button class="btn-delete" onclick="deleteCourse(2)">Delete</button>
+            </div>
+            <div id="course-3" class="course-item">
+                <span>Processors and Controllers</span>
+                <button class="btn-delete" onclick="deleteCourse(3)">Delete</button>
+            </div>
+            <div id="course-4" class="course-item">
+                <span>Machine Learning</span>
+                <button class="btn-delete" onclick="deleteCourse(4)">Delete</button>
+            </div>
+            <div id="course-5" class="course-item">
+                <span>Problem Solving</span>
+                <button class="btn-delete" onclick="deleteCourse(5)">Delete</button>
+            </div>
+        </div>
+        <button class="btn" onclick="window.location.href='/facultydashboard'">return to dasboard</button>
+        
+        <div id="message" class="message"></div>
+    </div>
+</body>
+</html>

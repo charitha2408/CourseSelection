@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course Feedback</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 60%;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        select, textarea {
+            padding: 10px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .button {
+            background-color: #5C4DBF;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .button:hover {
+            background-color: #3F3D9E;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Course Feedback Form</h2>
+        <form action="/submit-feedback" method="post">
+            <label for="course">Select Course:</label>
+            <select name="course" id="course" required>
+                <option value="22CSB2103">Python Full Stack Development</option>
+                <option value="22CS2256">Engineering Mathematics</option>
+                <option value="22CS276A">Java Full Stack Development</option>
+                <option value="22CS341A">Machine Learning</option>
+                <option value="22CS2871R">Database Management System</option>
+                <option value="22EC2311">Network Protocol Systems</option>
+                <option value="22CS2301">Problem Solving</option>
+                <option value="22EC123R">Processors and Controllers</option>
+                <option value="22CS2871R">ATFL</option>
+            </select>
+
+            <label for="feedback">Your Feedback:</label>
+            <textarea name="feedback" id="feedback" rows="5" placeholder="Please provide your feedback here..." required></textarea>
+
+            <button type="submit" class="button">Submit Feedback</button>
+        </form>
+    </div>
+</body>
+</html>

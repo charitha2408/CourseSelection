@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background-color: #f5f5f5;
+        }
+
+        .header {
+            background-color: #8B0000;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo {
+            width: 35px;
+            height: 35px;
+        }
+
+        .portal-title {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .logout-btn {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .profile-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .profile-header {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .profile-header h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .profile-picture {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background-color: #2F4F4F;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: white;
+        }
+
+        .profile-details {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .detail-group {
+            margin-bottom: 20px;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-group:last-child {
+            border-bottom: none;
+        }
+
+        .detail-label {
+            color: #666;
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .detail-value {
+            color: #333;
+            font-size: 1.1em;
+            padding: 5px 0;
+        }
+
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .back-button {
+            display: inline-block;
+            background-color: #666;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #777;
+        }
+
+        .edit-button {
+            background-color: #2F4F4F;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .edit-button:hover {
+            background-color: #3c6363;
+        }
+
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-section">
+            <div class="logo">
+                <img src="../static/images/image.png" th:src="@{/images/image.png}" alt="Logo">
+            </div>
+            <h1 class="portal-title">Student Portal</h1>
+        </div>
+        <a href="/logout" class="logout-btn">Logout</a>
+    </header>
+
+    <div class="profile-container">
+        <div class="profile-header">
+            <h2>Student Profile</h2>
+            <div class="profile-picture">
+                <span th:text="${#strings.substring(name,0,1)}">S</span>
+            </div>
+        </div>
+
+        <div class="profile-details">
+            <div class="detail-group">
+                <div class="detail-label">ID</div>
+                <div class="detail-value" th:text="${id}">12345</div>
+            </div>
+
+            <div class="detail-group">
+                <div class="detail-label">Name</div>
+                <div class="detail-value" th:text="${name}">Student Name</div>
+            </div>
+
+            <div class="detail-group">
+                <div class="detail-label">Department</div>
+                <div class="detail-value" th:text="${department}">Computer Science</div>
+            </div>
+
+            <div class="detail-group">
+                <div class="detail-label">Email ID</div>
+                <div class="detail-value" th:text="${emailid}">student@example.com</div>
+            </div>
+
+            <div class="detail-group">
+                <div class="detail-label">Password</div>
+                <div class="detail-value">********</div>
+            </div>
+
+            <div class="detail-group">
+                <div class="detail-label">User Type</div>
+                <div class="detail-value" th:text="${type}">Student</div>
+            </div>
+
+            <div class="actions">
+                <a href="/dashboard" class="back-button">Back to Dashboard</a>
+                <button class="edit-button">Edit Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        const studentName = /*[[${name}]]*/ 'Student';
+        
+        document.querySelector('.edit-button').addEventListener('click', function() {
+            console.log('Edit profile clicked');
+        });
+    </script>
+</body>
+</html>

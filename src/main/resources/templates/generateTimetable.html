@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generated Timetable</title>
+    <style>
+        * {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .actions {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Generated Timetable</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>9:00 AM - 10:00 AM</th>
+                <th>10:00 AM - 11:00 AM</th>
+                <th>11:00 AM - 12:00 PM</th>
+                <th>12:00 PM - 1:00 PM</th>
+                <th>2:00 PM - 3:00 PM</th>
+                <th>3:00 PM - 4:00 PM</th>
+            </tr>
+        </thead>
+        <tbody id="timetableBody">
+        </tbody>
+    </table>
+
+    <div class="actions">
+        <button class="btn" onclick="window.location.href='/logout'">Logout</button>
+                <button class="btn" onclick="window.location.href='/studentdashboard'">return to student dasboard</button>
+        
+    </div>
+
+    <script>
+        const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+        const timetableBody = document.getElementById('timetableBody');
+
+        const selectedSubjects = JSON.parse(localStorage.getItem('selectedSubjects')) || [];
+        const classrooms = ['C001', 'C002', 'C003', 'C004', 'C005', 'C006', 'C007'];
+        const rooms = ['R201', 'R202', 'R203', 'R204', 'R205', 'R206', 'R207', 'R208', 'R209', 'R210'];
+        function getRandomRoom() {
+            const allRooms = [...classrooms, ...rooms];
+            return allRooms[Math.floor(Math.random() * allRooms.length)];
+        }
+        days.forEach(day => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${day}</td>`;
+            const timeSlots = selectedSubjects.sort(() => 0.5 - Math.random()).slice(0, 6);
+
+            timeSlots.forEach(slot => {
+                const randomRoom = getRandomRoom();
+                row.innerHTML += `
+                    <td>
+                        ${slot.subjectName} (${slot.subjectCode})<br>
+                        Section: ${slot.section}<br>
+                        Room: ${randomRoom}
+                    </td>`;
+            });
+
+            timetableBody.appendChild(row);
+        });
+    </script>
+</body>
+</html>

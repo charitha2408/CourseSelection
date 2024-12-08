@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handout Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            text-align: left;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        p {
+            margin: 5px 0;
+        }
+
+        a {
+            text-decoration: none;
+            color: #5C4DBF;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2 th:text="${course}"></h2>
+        <p><strong>Credits:</strong> <span th:text="${credits}"></span></p>
+        <p><strong>Course Coordinator:</strong> <span th:text="${coordinator}"></span></p>
+        <p><a href="/hand">Back to Handouts</a></p>
+                        <button class="btn" onclick="window.location.href='/studentdashboard'">return to student dasboard</button>
+        
+    </div>
+</body>
+</html>

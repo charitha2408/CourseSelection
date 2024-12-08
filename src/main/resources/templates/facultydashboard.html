@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            background-color: #f0f0f0;
+            color: #333;
+        }
+        .header {
+            background-color: #333;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .logo {
+            width: 35px;
+            height: 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .portal-title {
+            font-size: 1.5rem;
+            color: white;
+        }
+        .logout-btn {
+            color: white;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+        }
+        .container {
+            display: flex;
+            min-height: calc(100vh - 65px);
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #1a1a1a;
+            padding: 20px;
+        }
+        .nav-button {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 4px;
+            color: #ccc;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 1rem;
+        }
+        .nav-button:hover, .nav-button.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+        .welcome-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .course-management {
+            display: none;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .course-list {
+            margin-top: 20px;
+        }
+        .course-item {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .btn {
+            padding: 8px 12px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .btn-add {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-edit {
+            background-color: #ffc107;
+            color: white;
+        }
+        .btn-delete {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-handouts {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: none;
+            border-radius: 4px;
+            color: #ccc;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-size: 1rem;
+        }
+        .btn-handouts:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-section">
+            <div class="logo">
+                <img src="../static/images/image.png" th:src="@{/images/image.png}" alt="Logo">
+            </div>
+            <h1 class="portal-title">Faculty Portal</h1>
+        </div>
+        <a href="/logout" class="logout-btn">Logout</a>
+    </header>
+
+    <div class="container">
+        <div class="sidebar">
+            <button class="nav-button active">Home</button>
+            <button class="nav-button" id="viewCoursesBtn">View Courses</button>
+            <button onclick="window.location.href='/profilef';" class="nav-button btn-handouts">Profile</button>
+            <button onclick="window.location.href='/handouts';" class="nav-button btn-handouts">Handouts</button>
+        </div>
+
+        <div class="main-content">
+            <div class="welcome-section">
+                <h2>Welcome, <span th:text="${name}">Faculty</span>!</h2>
+            </div>
+            <div class="course-management" id="courseManagement">
+                <h3>Manage Courses</h3>
+                <button onclick="window.location.href='/addcourse';" class="btn btn-success">Add Course</button>
+                <button onclick="window.location.href='/editcourse';" class="btn btn-success">Edit Course</button>
+                <button onclick="window.location.href='/deletecourse';" class="btn btn-success">Delete Course</button>
+                
+                
+                <div class="course-list" id="courseList">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        document.addEventListener('DOMContentLoaded', function() {
+            const viewCoursesBtn = document.getElementById('viewCoursesBtn');
+            const courseManagement = document.getElementById('courseManagement');
+            const addCourseBtn = document.getElementById('addCourseBtn');
+            const courseList = document.getElementById('courseList');
+            let courses = [];
+            viewCoursesBtn.addEventListener('click', function() {
+                courseManagement.style.display = 'block';
+            });
+            addCourseBtn.addEventListener('click', function() {
+                const courseName = prompt('Enter Course Name:');
+                if (courseName) {
+                    const newCourse = { id: courses.length + 1, name: courseName };
+                    courses.push(newCourse);
+                    renderCourses();
+                }
+            });
+            function renderCourses() {
+                courseList.innerHTML = '';
+                courses.forEach(course => {
+                    const courseItem = document.createElement('div');
+                    courseItem.className = 'course-item';
+                    courseItem.innerHTML = `
+                        ${course.name}
+                        <button class="btn btn-edit" onclick="editCourse(${course.id})">Edit</button>
+                        <button class="btn btn-delete" onclick="deleteCourse(${course.id})">Delete</button>
+                    `;
+                    courseList.appendChild(courseItem);
+                });
+            }
+            window.editCourse = function(courseId) {
+                const course = courses.find(c => c.id === courseId);
+                const newName = prompt('Edit Course Name:', course.name);
+                if (newName) {
+                    course.name = newName;
+                    renderCourses();
+                }
+            };
+            window.deleteCourse = function(courseId) {
+                courses = courses.filter(c => c.id !== courseId);
+                renderCourses();
+            };
+        });
+        /*]]>*/
+    </script>
+</body>
+</html>

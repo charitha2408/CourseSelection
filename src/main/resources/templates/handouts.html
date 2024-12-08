@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Handouts</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            color: #333;
+            font-size: 1rem;
+        }
+
+        /* Header Styles */
+        .header {
+            background-color: #333;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .portal-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+
+        .logout-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #c82333;
+        }
+
+        /* Container Layout */
+        .container {
+            display: flex;
+            min-height: calc(100vh - 80px);
+            margin-top: 20px;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: 250px;
+            background-color: #1a1a1a;
+            color: white;
+            padding: 20px;
+        }
+
+        .nav-button {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            background-color: #444;
+            border: none;
+            border-radius: 4px;
+            color: #ccc;
+            text-align: left;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .nav-button:hover, .nav-button.active {
+            background-color: #575757;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-size: 1rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        select, input[type="file"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        /* Success Message */
+        .success-message {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #28a745;
+            color: white;
+            border-radius: 4px;
+            display: none;
+            text-align: center;
+        }
+
+        /* Handouts List Styles */
+        #handoutList {
+            margin-top: 20px;
+        }
+
+        .handout-item {
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        .handout-item a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .handout-item a:hover {
+            text-decoration: underline;
+        }
+
+        .btn {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            text-align: center;
+            display: block;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo-section">
+            <div class="logo">
+                <img src="../static/images/image.png" th:src="@{/images/image.png}" alt="Logo">
+            </div>
+            <h1 class="portal-title">Faculty Portal</h1>
+        </div>
+        <a href="/logout" class="logout-btn">Logout</a>
+    </header>
+
+    <div class="container">
+        <div class="sidebar">
+            <button class="nav-button">Home</button>
+            <button class="nav-button" id="viewCoursesBtn">View Courses</button>
+            <button class="nav-button active">Handouts</button>
+        </div>
+
+        <div class="main-content">
+            <h2>Upload Handouts</h2>
+            <form action="/upload-handout" method="POST" enctype="multipart/form-data">
+                <label for="courseSelect">Select Course:</label>
+                <select name="courseSelect" id="courseSelect" required>
+                    <option value="cs101">CS101 - Introduction to Computer Science</option>
+                    <option value="math201">MATH201 - Calculus</option>
+                    <option value="phy301">PHY301 - Physics I</option>
+                    <option value="chemi101">CHEMI101 - General Chemistry</option>
+                    <option value="bio101">BIO101 - Biology</option>
+                    <option value="eco201">ECO201 - Microeconomics</option>
+                    <option value="stat101">STAT101 - Statistics</option>
+                    <option value="eng201">ENG201 - English Literature</option>
+                    <option value="hist101">HIST101 - World History</option>
+                    <option value="philo101">PHILO101 - Philosophy</option>
+                </select>
+                <label for="handoutFile">Choose a PDF File:</label>
+                <input type="file" name="handoutFile" id="handoutFile" accept=".pdf" required>
+                <button type="submit">Upload Handout</button>
+            </form>
+
+            <div class="success-message" id="successMessage">
+                Course Handout Added Successfully!
+            </div>
+
+            <button class="btn" onclick="window.location.href='/facultydashboard'">Return to Dashboard</button>
+
+            <div id="handoutList">
+                <!-- List of uploaded handouts will be dynamically populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Optional: Fetch and display list of existing handouts via an API if required
+
+        const form = document.querySelector('form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const successMessage = document.getElementById('successMessage');
+            successMessage.style.display = 'block';
+
+            // Clear the form after successful upload
+            form.reset();
+
+            // Hide the success message after 3 seconds
+            setTimeout(function() {
+                successMessage.style.display = 'none';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>

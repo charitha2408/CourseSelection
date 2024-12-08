@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div th:if="${error}" class="error-message">
+        <p th:text="${error}"></p>
+    </div>
+    <div th:if="${message}" class="success-message">
+        <p th:text="${message}"></p>
+    </div>
+    <div th:if="${courses != null}">
+        <h2>Available Courses:</h2>
+        <ul>
+            <li th:each="course : ${courses}">
+                <span th:text="${course.courseName}">Course Name</span> - 
+                <span th:text="${course.courseCode}">Course Code</span>
+            </li>
+        </ul>
+    </div>
+
+</body>
+</html>

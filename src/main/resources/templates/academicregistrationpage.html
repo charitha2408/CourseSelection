@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Registration</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        .header {
+            background-color: #333;
+            color: white;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .main-content {
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .registration-card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            background-color: black;
+            color: white;
+            padding: 1rem;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #333;
+        }
+
+        select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+
+        .btn-search {
+            background-color: #2980b9;
+            color: white;
+        }
+
+        .btn-search:hover {
+            background-color: #2471a3;
+        }
+
+        .btn-reset {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .btn-reset:hover {
+            background-color: #d3d3d3;
+        }
+
+        .logout-btn {
+            background-color: #c0392b;
+            color: white;
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .subjects-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .subjects-table th,
+        .subjects-table td {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        .subjects-table th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+        }
+
+        .section-select {
+            width: 100px;
+        }
+
+        .save-btn {
+            background-color: #28a745;
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1.5rem;
+            display: none;
+        }
+
+        .save-btn:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Registration</title>
+    <style>
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Student Portal</h1>
+        <button class="logout-btn">Logout</button>
+    </header>
+
+    <main class="main-content">
+        <div class="registration-card">
+            <div class="card-header">
+                <h2>Academic Registration</h2>
+            </div>
+            <div class="card-body">
+                <form id="registrationForm">
+                    <div class="form-group">
+                        <label for="academicYear">Academic Year</label>
+                        <select id="academicYear" name="academicYear" required>
+                            <option value="">Select Academic Year</option>
+                            <option value="2023-2024">2023-2024</option>
+                            <option value="2024-2025">2024-2025</option>
+                            <option value="2025-2026">2025-2026</option>
+                            <option value="2026-2027">2026-2027</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="semester">Semester</label>
+                        <select id="semester" name="semester" required>
+                            <option value="">Select Semester</option>
+                            <option value="odd">Odd</option>
+                            <option value="even">Even</option>
+                        </select>
+                    </div>
+
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-search">Search</button>
+                        <button type="reset" class="btn btn-reset">Reset</button>
+                    </div>
+                </form>
+
+                <table id="subjectsTable" class="subjects-table">
+                    <thead>
+                        <tr>
+                            <th>S.No</th>
+                            <th>Subject Code</th>
+                            <th>Subject Name</th>
+                            <th>Section</th>
+                        </tr>
+                    </thead>
+                    <tbody id="subjectsBody"></tbody>
+                </table>
+
+                <button id="saveBtn" class="save-btn">Save</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const subjectsBySemester = {
+            'odd': [
+                { code: '22CS2233F', name: 'Python Full Stack Development' },
+                { code: '22CSB2103', name: 'Operating Systems' },
+                { code: '22EC123R', name: 'Processors and Controllers' },
+                { code: '22CS341A', name: 'Machine Learning' },
+                { code: '22CS2301', name: 'Problem Solving' }
+            ],
+            'even': [
+                { code: '22CS2256', name: 'Engineering Mathematics' },
+                { code: '22CS276A', name: 'Java Full Stack Development' },
+                { code: '22EC2311', name: 'Network Protocol Systems' },
+                { code: '22CS2871R', name: 'Database Management System' },
+                { code: '22CS2871R', name: 'ATFL' }
+            ]
+        };
+
+        document.getElementById('registrationForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            const semester = document.getElementById('semester').value;
+            const subjects = subjectsBySemester[semester] || [];
+            const subjectsTable = document.getElementById('subjectsTable');
+            const saveBtn = document.getElementById('saveBtn');
+
+            subjectsTable.style.display = 'table';
+            saveBtn.style.display = 'block';
+
+            const subjectsBody = document.getElementById('subjectsBody');
+            subjectsBody.innerHTML = '';
+
+            subjects.forEach((subject, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${subject.code}</td>
+                    <td>${subject.name}</td>
+                    <td>
+                        <select class="section-select">
+                            <option value="">Select Section</option>
+                            <option value="S1">S-1</option>
+                            <option value="S2">S-2</option>
+                            <option value="S3">S-3</option>
+                            <option value="S4">S-4</option>
+                            <option value="S5">S-5</option>
+                        </select>
+                    </td>
+                `;
+                subjectsBody.appendChild(row);
+            });
+        });
+
+        document.getElementById('saveBtn').addEventListener('click', function () {
+            const subjectsTable = document.getElementById('subjectsTable');
+            const rows = subjectsTable.querySelectorAll('tbody tr');
+            const selectedSubjects = [];
+
+            rows.forEach(row => {
+                const subjectCode = row.cells[1].innerText;
+                const subjectName = row.cells[2].innerText;
+                const section = row.querySelector('.section-select').value;
+
+                if (section) {
+                    selectedSubjects.push({
+                        subjectCode: subjectCode,
+                        subjectName: subjectName,
+                        section: section
+                    });
+                }
+            });
+
+            if (selectedSubjects.length > 0) {
+                localStorage.setItem('selectedSubjects', JSON.stringify(selectedSubjects));
+                window.location.href = "/generate-timetable";
+            } else {
+                alert('Please select a section for all subjects.');
+            }
+        });
+
+    </script>
+</body>
+</html>
